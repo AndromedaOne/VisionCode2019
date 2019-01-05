@@ -1,6 +1,5 @@
 class FiltrationBase (object):
-    def __init__(self, target):
-        self.target = target
+    def __init__(self):
         pass
 
     def run(self):

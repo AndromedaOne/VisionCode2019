@@ -1,19 +1,20 @@
-from BoundingBoxFilter import *
+from FiltrationBase import *
 import cv2
 
-class Size (BoundingBoxFilter):
-    def __init__(self, boundingBoxes, target):
-        super().__init__(self, boundingBoxes, target)
-        self.minHeightSize = 0
-        self.maxHeightSize = 0
-        self.minWidthSize = 0
-        self.maxWidthSize = 0
+class Size (FiltrationBase):
+    def __init__(self, sizeLimits, boundingBoxesOfTargetCandidates):
+        
+        self.sizeLimits = sizeLimits
+        self.boundingBoxesOfTargetCandidates = boundingBoxesOfTargetCandidates
 
     def run(self):
-       #Filters out "Blobs" that are way too big or way too small
-        for box in self.boundingBoxes:
+        #Filters out "Blobs" that are way too big or way too small
+        self.betterBoundingBoxes = []
+        for box in self.boundingBoxesOfTargetCandidates:
             width = box[2]
             height = box[3]
-            if self.minHeightSize < height < self.maxHeightSize and self.minWidthSize < width < self.maxWidthSize:
+            
+            if self.sizeLimits.minHeightSize < height < self.sizeLimits.maxHeightSize and self.sizeLimits.minWidthSize < width < self.sizeLimits.maxWidthSize:
                 self.betterBoundingBoxes = self.betterBoundingBoxes + [box]
-        return
+
+        return self.betterBoundingBoxes
